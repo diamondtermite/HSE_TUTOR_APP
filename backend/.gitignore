@@ -1,0 +1,25 @@
+# Python cache / compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.env/
+.venv/
+
+# Environment variables
+*.env
+
+# macOS / Windows junk
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# IDE / Editor settings
+.vscode/
+.idea/
+*.swp
