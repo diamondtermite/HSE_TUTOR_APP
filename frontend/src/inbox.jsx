@@ -4,9 +4,10 @@ function Inbox() {
 
     return (
 
-        <div>
+        <div className="inbox-div" >
 
             <h1>This is the messages div</h1>
+            
 
         </div>
 
