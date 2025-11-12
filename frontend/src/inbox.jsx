@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
-
+const [shown, setShown]=useState(true);
 function Inbox() {
-
+    if (!shown) {
+        return null;
+    }
     return (
 
         <div className="inbox-div" >

@@ -1,9 +1,12 @@
-import { useState, useEffect, useId } from "react";
-
+import { useState, useEffect, useId, use } from "react";
+const [shown, setShown]=useState(true);
+const [tutorName, setTutorName] = useState("");
 function Search(id, btnId) {
 
-    const [tutorName, setTutorName] = useState("");
-
+    
+if (!shown) {
+        return null;
+    }
     return (
 
         <div className="search-bar-div">
