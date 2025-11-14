@@ -1,11 +1,11 @@
-import { useState, useEffect, useId, use } from "react";
-const [shown, setShown]=useState(true);
-const [tutorName, setTutorName] = useState("");
-function Search(id, btnId) {
+import { useState, useEffect, useId } from "react";
 
+function Search(id, btnId) {
+    const [shown, setShown]=useState(true);
+    const [tutorName, setTutorName] = useState("");
     
-if (!shown) {
-        return null;
+    if (!shown) {
+            return null;
     }
     return (
 

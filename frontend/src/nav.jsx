@@ -1,20 +1,22 @@
-import { useEffect, useState} from "react"
+import React from "react";
 
-function Nav() {
-    const [shown, setShown] = useState(true);
-    if (!shown) {
-        return null;
-    }
-    return (
+export default function Nav({ currentPage, setCurrentPage }) {
+  const navButton = (id, label) => (
+    <button
+      type="button"
+      onClick={() => setCurrentPage(id)}
+      className={currentPage === id ? "nav-btn active" : "nav-btn"}
+    >
+      {label}
+    </button>
+  );
 
-        <div className="nav-bar">
-            <img src="/assets/nav-image.png" alt="huh" onClick={() => console.log("hello!")}/>
-            <img src="/assets/nav-image.png" alt="Navigation image" onClick={console.log("hello!")}/>
-
-        </div>
-
-    )
-
+  return (
+    <nav className="nav">
+      {navButton("home", "Home")}
+      {navButton("search", "Search")}
+      {navButton("requests", "Requests")}
+      {navButton("settings", "Settings")}
+    </nav>
+  );
 }
-
-export default Nav;

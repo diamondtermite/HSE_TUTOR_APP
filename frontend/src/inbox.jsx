@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-const [shown, setShown]=useState(true);
 function Inbox() {
+    const [shown, setShown]=useState(true);
     if (!shown) {
         return null;
     }
