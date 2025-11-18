@@ -31,3 +31,68 @@
     padding: 15px;
 
 }
+
+
+
+.requestContainer {
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+}
+
+.requestsDiv {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+    
+.requestBox {
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 15px;
+
+}
+
+.requestName {
+
+    background-color: #ff151c;
+    color: white;
+
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: #ff151c;
+
+    font-family: "Kumbh Sans", sans-serif;
+    font-weight: 1800px;
+
+    text-align: center;
+    font-size: 24px;
+
+}
+
+.acceptRqBtn{
+    display: inline-block;
+    background-color: rgba(0, 136, 255, 0.557);
+    border: 1px black;
+    cursor:pointer;
+}
+
+.acceptRqBtn:hover {
+    background-color: rgb(184, 182, 176);
+}
+
+.denyRqBtn{
+    display: inline-block;
+    border: 1px black;
+}

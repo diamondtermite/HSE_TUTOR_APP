@@ -12,7 +12,7 @@ export default function Nav({ currentPage, setCurrentPage }) {
   );
 
   return (
-    <nav className="nav">
+    <nav className="nav-bar">
       {navButton("home", "Home")}
       {navButton("search", "Search")}
       {navButton("requests", "Requests")}
