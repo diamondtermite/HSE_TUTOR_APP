@@ -32,8 +32,6 @@
 
 }
 
-
-
 .requestContainer {
 
     display: flex;
@@ -62,7 +60,7 @@
 
 }
 
-.requestName {
+.requestBoxHeader {
 
     background-color: #ff151c;
     color: white;
@@ -92,7 +90,20 @@
     background-color: rgb(184, 182, 176);
 }
 
-.denyRqBtn{
-    display: inline-block;
-    border: 1px black;
+.requestStudentProfile {
+    display: flex;
+}
+
+.requestStudentProfile img {
+    margin-right: 10px;
+}
+
+.requestStudentInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.requestDescription {
+    border: solid 3px black;
+    border-radius: 8px;
 }

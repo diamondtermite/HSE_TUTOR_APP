@@ -6,7 +6,7 @@ function requestsContainer() {
         <div className="requestContainer">
             <h1 className = 'requestHeader'>Requests:</h1>
             <div className="requestsDiv">
-                <Request requestName="John's Math Homework" info="My name is John and I need help with my Math"/>
+                <Request studentName="John John" studentGrade="11" class="English" info="My name is John and I need help with my Math"/>
             </div>
         </div>
     );

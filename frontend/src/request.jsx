@@ -4,11 +4,17 @@ function request(props) {
 
     return (
         <div className='requestBox'>
-            <div className='requestName'>{props.requestName}</div>
-            <div className='info'>{props.info}</div>
-            <div className='actions'>
+            <div className='requestBoxHeader'></div>
+            <div className="requestStudentProfile">
+                <img alt="placeholder" />
+                <div className="requestStudentInfo">
+                    <p>{props.studentName}</p>
+                    <p>{props.studentGrade}</p>
+                </div>
+            </div>
+            <div className='requestDescription'>{props.info}</div>
+            <div className='requestActions'>
                 <button className='acceptRqBtn'>accept</button>
-                <button className='denyRqBtn'>deny</button>
             </div>
         </div>
     );
