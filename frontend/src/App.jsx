@@ -16,29 +16,36 @@ function App() {
       .catch(err => setMessage("Error: " + err));
   }, []);
 
+const permissions = {
+    canViewInbox: true,
+    canSearchTutors: true,
+    canViewRequests: true,
+    canChangeSettings: true,
+  };
+
 //-----------------------------------------------------------------------------
   // Define the different pages and what they look like
   const pages = {
-    home: (
+    home: permissions.canViewInbox && (
       <>
         <h1>{message}</h1>
         <h2>Hello!</h2>
         <Inbox />
       </>
     ),
-    search: (
+    search: permissions.canSearchTutors && (
       <div>
         <h1>Search Tutors</h1>
         <Search id="search-tutor-input" btnId="search-tutor-button" />
       </div>
     ),
-    requests: (
+    requests: permissions.canViewRequests && (
       <div>
         <h1>Requests</h1>
         <RequestsContainer />
       </div>
     ),
-    settings: (
+    settings: permissions.canChangeSettings && (
       <div>
         <h1>Settings</h1>
         <Settings />
