@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Nav from "./nav.jsx";
 import Inbox from './inbox.jsx';
 import RequestsContainer from './requestContainer.jsx';
+import RequestForm from './requestForm.jsx';
 import Search from './searchBar.jsx';
 import Settings from './settings.jsx';
 
@@ -43,6 +44,7 @@ const permissions = {
       <div>
         <h1>Requests</h1>
         <RequestsContainer />
+        <RequestForm />
       </div>
     ),
     settings: permissions.canChangeSettings && (
