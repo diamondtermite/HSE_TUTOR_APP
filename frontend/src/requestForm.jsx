@@ -1,7 +1,5 @@
-//import { useNavigate } from "react-router-dom";
-
 function requestForm() {
-    
+
     return(
         <form className="requestForm">
             <label htmlFor="Title">title:</label>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Nav from "./nav.jsx";
 import Inbox from './inbox.jsx';
 import RequestsContainer from './requestContainer.jsx';
@@ -9,6 +10,7 @@ import Settings from './settings.jsx';
 function App() {
   const [message, setMessage] = useState("Loading...");
   const [currentPage, setCurrentPage] = useState("home");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("/api/")
@@ -43,8 +45,7 @@ const permissions = {
     requests: permissions.canViewRequests && (
       <div>
         <h1>Requests</h1>
-        <RequestsContainer />
-        <RequestForm />
+        <RequestsContainer />``
       </div>
     ),
     settings: permissions.canChangeSettings && (
