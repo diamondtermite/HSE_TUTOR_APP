@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Request from './request.jsx'
-function requestsContainer() {
+function RequestContainer() {
 
     return (
         <div className="requestContainer">
@@ -12,5 +12,5 @@ function requestsContainer() {
     );
 }
 
-export default requestsContainer;
+export default RequestContainer;
 

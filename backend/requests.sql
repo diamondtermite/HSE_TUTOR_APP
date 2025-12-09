@@ -14,3 +14,11 @@ CREATE TABLE IF NOT EXISTS requests (
 
 );
 
+CREATE TABLE IF NOT EXISTS users (
+
+    user_name TEXT,
+    user_email TEXT,
+    user_password TEXT,
+    user_auth TEXT 
+
+);

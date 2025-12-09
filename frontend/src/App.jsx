@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Nav from "./nav.jsx";
 import Inbox from './inbox.jsx';
-import RequestsContainer from './requestContainer.jsx';
+import RequestContainer from './requestContainer.jsx';
 import RequestForm from './requestForm.jsx';
 import Search from './searchBar.jsx';
 import Settings from './settings.jsx';
+import Layout from './layout.jsx';
 
 function App() {
   const [message, setMessage] = useState("Loading...");
@@ -29,10 +30,12 @@ const permissions = {
 return (
   <BrowserRouter>
     <Routes>
-        <Route path="/" element={<Inbox />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/requests" element={<Requests />} />
-        <Route path="/settings" element={<Settings />} />
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Inbox />} />
+        <Route path="search" element={<Search />} />
+        <Route path="requests" element={<RequestContainer />} />
+        <Route path="settings" element={<Settings />} />
+      </Route>
     </Routes>
   </BrowserRouter>
 );

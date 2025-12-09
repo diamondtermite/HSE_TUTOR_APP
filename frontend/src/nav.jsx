@@ -1,22 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-export default function Nav({ currentPage, setCurrentPage }) {
-  const navButton = (id, label) => (
-    <button
-      type="button"
-      onClick={() => setCurrentPage(id)}
-      className={currentPage === id ? "nav-btn active" : "nav-btn"}
-    >
-      {label}
-    </button>
-  );
-
+export default function Nav() {
   return (
     <nav className="nav-bar">
-      {navButton("home", "Home")}
-      {navButton("search", "Search")}
-      {navButton("requests", "Requests")}
-      {navButton("settings", "Settings")}
+      <Link to="/">Home</Link> |{" "}
+      <Link to="/search">search</Link> |{" "}
+      <Link to="/requests">requests</Link> |{" "}
+      <Link to="/settings">settings</Link> |{" "}
     </nav>
   );
 }

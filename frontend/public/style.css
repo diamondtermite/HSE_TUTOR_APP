@@ -45,6 +45,11 @@
 
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 .requestContainer {
 
     display: flex;
