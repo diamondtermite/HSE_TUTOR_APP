@@ -5,12 +5,25 @@
     box-sizing: border-box;
 
 }
+:root {
+    --main-color:#06c;
+    --beige:#FFEAD0;
+    --off-white:#EFF2EF;
+    --contrast-red: #DB2955;
+    --carbon-black:#1B2021
+}
 
 * { margin: 0; }
 
-.app-div {
-
-    padding-top: 0;
+.wrap-div {
+    background-color: var(--off-white);
+    color: var(--carbon-black);
+    min-height: 80vh;
+    width:90%;
+    margin: auto;
+    align-items: center;
+    padding-top: 60px;
+    border-radius: 10px;
 
 }
 
@@ -19,13 +32,13 @@
     display: flex;
     align-items: center;
 
-    color: white;
+    color: var(--beige);
     text-align: left;
     font-size: 42px;
     font-family: "Kumbh Sans", sans-serif;
     font-weight: 900px;
 
-    height: 150px;
+    height: 50px;
     width: 100%;
     background-color: #4577CC;
     padding: 15px;
