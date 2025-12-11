@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 import Request from './request.jsx'
 function RequestContainer() {
+    const [requests, setRequests] = useState([]);
+    useEffect(() => {
+        fetch('/api/requests')
+            .then(response => response.json())
+            .then(data => setRequests(data))
+            .catch(error => console.error('Error fetching requests:', error));
+    }, []);
 
     return (
         <div className="requestContainer">
