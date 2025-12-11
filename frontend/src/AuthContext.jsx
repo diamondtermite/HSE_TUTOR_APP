@@ -11,7 +11,7 @@ function AuthProvider({ children }) { // the AuthProvider component that will wr
         setAuth(userData.auth);
     }
 
-    const logout = async () => { // function to log out a user and clear the user and auth state
+    const logout = async () => {
         await fetch("/api/logout", { method: "POST", credentials: "include" });
         setUser(null);
         setAuth(null);

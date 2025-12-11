@@ -25,26 +25,33 @@ export default function Nav() {
   */
   return (
     <nav className="nav-bar">
-      <Link to="/">home</Link>
+      {" | "} <Link to="/"> <h3> home </h3> </Link> {" | "}
       { user ?
         (
           <>
+<<<<<<< HEAD
             {auth === "Teacher" && <Link to="/search">search</Link>}
             {auth === "Student" && <Link to="/requests?only_self=true">requests</Link>}
             {auth === "Tutor" && <Link to="/requests?hide_accepted=true&self=false">requests</Link>}
             {auth === "Teacher" && <Link to="/requests">requests</Link>}
             {auth !== "Teacher" && <Link to="/addrequest">add request</Link>}
             <button onClick={handleLogout}>logout</button>
+=======
+            {auth === "Teacher" && <Link to="/search"> <h3> search </h3> <> | </></Link>}
+            {auth !== "Student" && <Link to="/requests"> <h3> requests </h3> </Link>} {" | "}
+            <Link to="/addrequest"> <h3> add request </h3> </Link> {" | "}
+            <Link to="/settings"> <h3> settings </h3> </Link> {" | "}
+            <button onClick={handleLogout}> logout </button> {" | "}
+>>>>>>> d02c9c4 (css work with some documentation)
           </>
         )
         :
         (
           <>
-            <Link to="/login">login</Link>
+            <Link to="/login"> <h3> login </h3> </Link>
           </>
         )
       }
-      <Link to="/settings">settings</Link>
     </nav>
   );
 }

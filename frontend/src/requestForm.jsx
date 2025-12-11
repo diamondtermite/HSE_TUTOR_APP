@@ -42,6 +42,7 @@ function RequestForm() {
             <label htmlFor="date">Date:</label>
             <input type="date" id="date" name="date" required onChange={(e) => setDate(e.target.value)} />
 
+<<<<<<< HEAD
             <label htmlFor="start_time">Start Time:</label>
             <input type="time" id="start_time" name="start_time" required onChange={(e) => setStartTime(e.target.value)} />
 
@@ -50,6 +51,10 @@ function RequestForm() {
 
             <label htmlFor="location">Location:</label>
             <input type="text" id="location" name="location" required onChange={(e) => setLocation(e.target.value)} />
+=======
+            <label htmlFor="studentGrade">Grade:</label>
+            <input type="number" id="studentGrade" name="studentGrade" min = "9" max = "12" required onChange={(e) => setStudentGrade(e.target.value)} />
+>>>>>>> d02c9c4 (css work with some documentation)
 
             <label htmlFor="classSubject">Class/Subject:</label>
             <select id="classSubject" name="classSubject" required onChange={(e) => setClassSubject(e.target.value)}>

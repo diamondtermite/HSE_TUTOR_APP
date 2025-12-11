@@ -18,6 +18,7 @@ function Search(id, btnId) { // Search component taking id and btnId as props, b
                 id={id} 
                 placeholder="Search..." 
             />
+            
             <button id={btnId} onClick={(e) => setTutorName(e.target.value)}>Go</button>
 
         </div>

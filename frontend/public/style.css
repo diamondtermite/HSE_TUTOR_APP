@@ -10,21 +10,18 @@
     --beige:#FFEAD0;
     --off-white:#EFF2EF;
     --contrast-red: #DB2955;
-    --carbon-black:#1B2021
+    --carbon-black:#1B2021;
 }
 
 * { margin: 0; }
 
 .wrap-div {
-    background-color: var(--off-white);
-    color: var(--carbon-black);
+    background-color: white;
     min-height: 80vh;
-    width:90%;
+    width:100%;
     margin: auto;
     align-items: center;
-    padding-top: 60px;
     border-radius: 10px;
-
 }
 
 .nav-bar {
@@ -34,14 +31,13 @@
 
     color: var(--beige);
     text-align: left;
-    font-size: 42px;
+    font-size: 50px;
     font-family: "Kumbh Sans", sans-serif;
     font-weight: 900px;
 
-    height: 50px;
-    width: 100%;
-    background-color: #4577CC;
-    padding: 15px;
+    height: 80px;
+    width: 100vw;
+    background-color: var(--main-color);
 
 }
 
@@ -51,7 +47,7 @@ a {
 }
 
 .requestContainer {
-
+    padding: 20px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -73,21 +69,21 @@ a {
     justify-content: space-evenly;
     border-width: 5px;
     border-style: solid;
-    border-color: black;
+    border-color: var(--carbon-black);
     border-radius: 15px;
 
 }
 
 .requestBoxHeader {
 
-    background-color: #ff151c;
+    background-color: var(--contrast-red);
     color: white;
 
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     border-width: 10px;
     border-style: solid;
-    border-color: #ff151c;
+    border-color: var(--contrast-red);
 
     font-family: "Kumbh Sans", sans-serif;
     font-weight: 1800px;
@@ -99,13 +95,15 @@ a {
 
 .acceptRqBtn{
     display: inline-block;
-    background-color: rgba(0, 136, 255, 0.557);
-    border: 1px black;
+    background-color: var(--main-color);
+    border: 2px black;
+    border-top-right-radius:5px;
+    border-bottom-left-radius: 8px;
     cursor:pointer;
 }
 
 .acceptRqBtn:hover {
-    background-color: rgb(184, 182, 176);
+    background-color: var(--contrast-red);
 }
 
 .requestStudentProfile {
@@ -122,6 +120,16 @@ a {
 }
 
 .requestDescription {
+    align-self: center;
     border: solid 3px black;
     border-radius: 8px;
+    width: 90%;
+}
+.requestForm {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin: auto;
+    background-color: var(--beige);
+    padding: 20px;
 }
