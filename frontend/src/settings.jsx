@@ -1,6 +1,7 @@
+// importing necessary libraries
 import { useEffect, useState} from "react"
-// --- IGNORE FOR NOW---
-function Settings() {
+
+function Settings() { // Settings component, placeholder for future settings page implementation
 
     return (
 
@@ -14,4 +15,4 @@ function Settings() {
 
 }
 
-export default Settings;
+export default Settings; // exporting the Settings component
