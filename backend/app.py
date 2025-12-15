@@ -80,9 +80,9 @@ def requests():
     tutor: When true, it only shows requests accepted by the user (used only for viewers, to be used on the tutor's dashboard)
     """
     # getting query parameters from the request
-    hide_accepted = request.args.get('showAccepted', 'false').lower() == 'true'
+    hide_accepted = request.args.get('hide_accepted', 'false').lower() == 'true'
     self = request.args.get('self', 'true').lower() == "false"
-    only_self = request.args.get('onlySelf', 'false').lower() == 'true'
+    only_self = request.args.get('only_self', 'false').lower() == 'true'
     tutor = request.args.get('tutor', 'false').lower() == 'true'
 
     query = "SELECT * FROM requests WHERE 1=1" # query to be passed in and used to fetch requests from the database
