@@ -18,6 +18,7 @@ Thumbs.db
 
 # Logs
 *.log
+./flask_session/*
 
 # IDE / Editor settings
 .vscode/
