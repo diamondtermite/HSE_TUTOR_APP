@@ -50,16 +50,19 @@ function LoginForm() {
     Error Message - Displays error message in red if error state is set
     */
     return(
-        <form className="loginForm" onSubmit={handleSubmit}>
-            <label htmlFor="Email">Email:</label>
-            <input type="email" id="email" name="email" required onChange={e => setEmail(e.target.value)} />
+        <div className="loginDiv">
+            <h2>Hse Tutor App</h2>
+            <form className="loginForm" onSubmit={handleSubmit}>
+                <label htmlFor="Email">Email:</label>
+                <input type="email" id="email" name="email" required onChange={e => setEmail(e.target.value)} />
 
-            <label htmlFor="Password">Password:</label>
-            <input type="password" id="password" name="password" required onChange={e => setPassword(e.target.value)} />
+                <label htmlFor="Password">Password:</label>
+                <input type="password" id="password" name="password" required onChange={e => setPassword(e.target.value)} />
 
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            <button type="submit" className="loginBtn">Login</button>
-        </form>
+                {error && <p style={{ color: "red" }}>{error}</p>}
+                <button type="submit" className="loginBtn">Login</button>
+            </form>
+        </div>
     );
 }
 
