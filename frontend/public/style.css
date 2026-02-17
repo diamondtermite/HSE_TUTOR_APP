@@ -8,7 +8,7 @@
 :root {
     --main-color:#06c;
     --beige:#FFEAD0;
-    --off-white:#EFF2EF;
+    --off-white:#f2f6f5;
     --contrast-red: #DB2955;
     --carbon-black:#1B2021;
 }
@@ -16,7 +16,7 @@
 * { margin: 0; }
 
 .wrap-div {
-    background-color: white;
+    background-color: var(--off-white);
     min-height: 80vh;
     width:100%;
     margin: auto;
@@ -28,16 +28,16 @@
 
     display: flex;
     align-items: center;
-
-    color: var(--beige);
+    gap: 10px;
+    color: var(--carbon-black);
     text-align: left;
-    font-size: 50px;
+    font-size: 30px;
     font-family: "Kumbh Sans", sans-serif;
-    font-weight: 900px;
+    font-weight: 90px;
 
     height: 80px;
     width: 100vw;
-    background-color: var(--main-color);
+    background-color:white
 
 }
 
@@ -128,8 +128,96 @@ a {
 .requestForm {
     display: flex;
     flex-direction: column;
-    width: 50%;
-    margin: auto;
-    background-color: var(--beige);
-    padding: 20px;
+    gap: 12px;
+    width: min(720px, 90%);
+    margin: 24px auto;
+    background-color: var(--contrast-red);
+    padding: 20px 24px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(27,32,33,0.08);
+    border: 1px solid rgba(27,32,33,0.06);
+    font-family: "Kumbh Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* form rows and controls */
+.requestForm label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+    color: var(--carbon-black);
+}
+
+.requestForm input[type="date"],
+.requestForm input[type="time"],
+.requestForm input[type="text"],
+.requestForm select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid rgba(27,32,33,0.12);
+    border-radius: 8px;
+    background: white;
+    font-size: 1rem;
+    transition: box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+.requestForm input:focus,
+.requestForm select:focus {
+    outline: none;
+    border-color: rgba(6,102,204,0.9);
+    box-shadow: 0 4px 12px rgba(6,102,204,0.12);
+}
+
+.requestForm .form-row {
+    display: flex;
+    gap: 12px;
+}
+
+.requestForm .form-row > * {
+    flex: 1 1 0;
+}
+
+.error-text {
+    color: var(--contrast-red);
+    font-size: 0.95rem;
+    margin-top: 4px;
+}
+
+.submitRequestBtn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(180deg, var(--main-color), #005bb5);
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor:pointer;
+    align-self: center;
+    margin-top: 8px;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(6,102,204,0.12);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+
+.submitRequestBtn:hover{
+    transform: translateY(-2px);
+    filter: brightness(1.03);
+}
+
+.submitRequestBtn:active{
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(6,102,204,0.10);
+}
+
+@media (max-width: 520px) {
+    .requestForm {
+        padding: 16px;
+        gap: 10px;
+    }
+    .requestForm .form-row { flex-direction: column; }
+}
+.hse-img{
+    height: 60px;
+    max-width: fit-content;
 }

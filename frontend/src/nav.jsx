@@ -1,6 +1,7 @@
 // import React library and necessary hooks/components from react-router-dom
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import hseImg from "./assets/hseapps.png";
 import { useAuth } from "./AuthContext";
 
 export default function Nav() {
@@ -25,22 +26,22 @@ export default function Nav() {
   */
   return (
     <nav className="nav-bar">
-      {" | "} <Link to="/"> <h3> home </h3> </Link> {" | "}
+      <Link to="/"><img src={hseImg} alt="home" className="hse-img"/></Link> {" | "}
       { user ?
         (
           <>
             {auth === "Teacher" && <Link to="/search">search</Link>}
-            {auth === "Student" && <Link to="/requests?only_self=true">requests</Link>}
-            {auth === "Tutor" && <Link to="/requests?hide_accepted=true&self=false">requests</Link>}
-            {auth === "Teacher" && <Link to="/requests">requests</Link>}
-            {auth !== "Teacher" && <Link to="/addrequest">add request</Link>}
-            <button onClick={handleLogout}>logout</button>
+            {auth === "Student" && <Link to="/requests?only_self=true">Requests</Link>}
+            {auth === "Tutor" && <Link to="/requests?hide_accepted=true&self=false">Requests</Link>}
+            {auth === "Teacher" && <Link to="/requests">Requests</Link>}
+            {auth !== "Teacher" && <Link to="/addrequest">Add Request</Link>}
+            <button onClick={handleLogout}>Logout</button>
           </>
         )
         :
         (
           <>
-            <Link to="/login"> <h3> login </h3> </Link>
+            <Link to="/login"> <h3> Login </h3> </Link>
           </>
         )
       }

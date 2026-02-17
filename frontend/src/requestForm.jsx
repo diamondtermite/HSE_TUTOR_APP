@@ -42,11 +42,16 @@ function RequestForm() {
             <label htmlFor="date">Date:</label>
             <input type="date" id="date" name="date" required onChange={(e) => setDate(e.target.value)} />
 
-            <label htmlFor="start_time">Start Time:</label>
-            <input type="time" id="start_time" name="start_time" required onChange={(e) => setStartTime(e.target.value)} />
-
-            <label htmlFor="end_time">End Time:</label>
-            <input type="time" id="end_time" name="end_time" required onChange={(e) => setEndTime(e.target.value)} />
+            <div className="form-row">
+                <div>
+                    <label htmlFor="start_time">Start Time:</label>
+                    <input type="time" id="start_time" name="start_time" required onChange={(e) => setStartTime(e.target.value)} />
+                </div>
+                <div>
+                    <label htmlFor="end_time">End Time:</label>
+                    <input type="time" id="end_time" name="end_time" required onChange={(e) => setEndTime(e.target.value)} />
+                </div>
+            </div>
 
             <label htmlFor="location">Location:</label>
             <input type="text" id="location" name="location" required onChange={(e) => setLocation(e.target.value)} />
@@ -60,7 +65,7 @@ function RequestForm() {
                 <option value="Foreign Language">Foreign Language</option>
                 <option value="Other">Other</option>
             </select>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <p className="error-text">{error}</p>}
             <button type="submit" className="submitRequestBtn">Submit Request</button>
         </form>
     );
