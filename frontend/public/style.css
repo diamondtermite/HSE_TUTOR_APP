@@ -9,7 +9,7 @@
     --main-color:#06c;
     --beige:#FFEAD0;
     --off-white:#f2f6f5;
-    --contrast-red: #DB2955;
+    --contrast-red: #f16666;
     --carbon-black:#1B2021;
 }
 
@@ -28,23 +28,30 @@
 
     display: flex;
     align-items: center;
-    gap: 10px;
-    color: var(--carbon-black);
+    justify-content: 10px, 200px, 20px, 20px;
+    backdrop-filter: blur(30px);
+    box-shadow: 0px 0px 30px rgba(227,228,237,0.37);
+    border: 2px solid rgba(255, 255, 255, 0.18);
     text-align: left;
     font-size: 30px;
     font-family: "Kumbh Sans", sans-serif;
     font-weight: 90px;
-
     height: 80px;
     width: 100vw;
-    background-color:white
-
 }
-
-a {
+@keyframes nav-select{
+    from: {background-color: red;}
+    to: {background-color:none;}
+}
+.nav-bar a{
+    color:inherit;
+}
+.nav-bar a:focus{
     text-decoration: none;
     color: inherit;
-}
+    animation: nav-select;
+    animation-duration: 4s;
+} 
 
 .requestContainer {
     padding: 20px;
@@ -218,6 +225,55 @@ a {
     .requestForm .form-row { flex-direction: column; }
 }
 .hse-img{
-    height: 60px;
+    height: 10vh;
+    min-height: 40px;
     max-width: fit-content;
+}
+
+.loginFormDiv{
+    display: block;
+    width: min(400px, 90%);
+    margin: 24px auto;
+    background-color: var(--contrast-red);
+    padding: 20px 24px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(27,32,33,0.08);
+    border: 1px solid rgba(27,32,33,0.06);
+    font-family: "Kumbh Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.loginForm label {
+    display: block;
+    margin-bottom: 4px;
+    color: white;
+    font-weight: 500;
+}
+
+.loginForm input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.loginBtn {
+    display: block;
+    margin-top: 12px;
+    padding: 10px 20px;
+    background-color: var(--main-color);
+    color: white;
+    border: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    width: 100%;
 }

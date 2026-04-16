@@ -30,12 +30,22 @@ export default function Nav() {
       { user ?
         (
           <>
-            {auth === "Teacher" && <Link to="/search">search</Link>}
-            {auth === "Student" && <Link to="/requests?only_self=true">Requests</Link>}
-            {auth === "Tutor" && <Link to="/requests?hide_accepted=true&self=false">Requests</Link>}
-            {auth === "Teacher" && <Link to="/requests">Requests</Link>}
-            {auth !== "Teacher" && <Link to="/addrequest">Add Request</Link>}
-            <button onClick={handleLogout}>Logout</button>
+            {auth === "Teacher" && <>
+                <Link to="/search">search</Link>
+                <Link to="/requests">Requests</Link>
+                <Link to="/addrequest">Add Request</Link>
+            </>
+            }
+
+            {auth === "Student" && 
+              <Link to="/requests?only_self=true">Requests</Link>
+            }
+
+            {auth === "Tutor" && 
+              <Link to="/requests?hide_accepted=true&self=false">Requests</Link>
+            }
+
+            <button className="sign-out-btn" onClick={handleLogout}>Sign out</button>
           </>
         )
         :

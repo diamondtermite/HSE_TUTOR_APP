@@ -56,3 +56,8 @@ def accept_request(tutor_id, request_id):
         cursor = conn.cursor()
         cursor.execute("UPDATE requests SET tutor_id = ?, tutor_name = ?, tutor_grade = ? WHERE request_id = ?", (tutor_id, get_user_name_by_id(tutor_id), get_user_grade_by_id(tutor_id), request_id,)) # updating the request to assign the tutor to it
         conn.commit()
+# def search_by_tutor():
+#     with sqlite3.connect("requests.db") as conn:
+#         query=""
+#         get_requests()
+#         cursor.execute()
