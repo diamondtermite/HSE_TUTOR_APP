@@ -49,13 +49,16 @@ def login():
     else:
         return jsonify({"success": False, "message": "Invalid authentication"}), 401
 
-app.route('/api/logout', methods=['POST'])
+@app.route('/api/logout', methods=['POST'])
 def logout():
     session.clear() # simply clearing the session
     return jsonify({"success": True, "message": "Logged out successfully"})
 
 @app.route('/api/addrequest', methods=['POST'])
 def add_request():
+    if 'user_id' not in session:
+        return jsonify({"success": False, "message": "Unauthorized"}), 401
+
     data = request.get_json()
     class_subject = data.get('classSubject')
     date = data.get('date')
@@ -66,6 +69,22 @@ def add_request():
     if not class_subject or not date or not start_time or not end_time or not location: # if some field is not filled, return error
         return jsonify({"success": False, "message": f"Missing required fields {class_subject}, {date}, {start_time}, {end_time}, {location}"}), 400
 
+    try:
+        request_date = datetime.strptime(date, "%Y-%m-%d")
+    except ValueError:
+        return jsonify({"success": False, "message": "Invalid date format."}), 400
+
+    now = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    month = now.month + 6
+    year = now.year + (month - 1) // 12
+    month = ((month - 1) % 12) + 1
+    month_lengths = [31, 29 if (year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)) else 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    day = min(now.day, month_lengths[month - 1])
+    six_months_from_now = now.replace(year=year, month=month, day=day)
+
+    if request_date > six_months_from_now:
+        return jsonify({"success": False, "message": "Request date must be within 6 months from today."}), 400
+
     q.add_request(session["user_id"], class_subject, date, start_time, end_time, location) # adding request to the database
     return jsonify({"success": True, "message": "Request added successfully"})
 
@@ -75,7 +94,7 @@ def requests():
     Requests is used to fetch all tutoring requests from the database based on query parameters/filters and purpose of the view.
 
     hide_accepted: When true, it hides requests that have been accepted by a tutor or have passed (used for the view which a tutor can see open requests)
-    self: When false, it only shows requests not made by the user and that don't fall on dates where the user has already accepted a request (used for the view which a tutor can see open requests)
+    self: When false, it only shows requests not made by the user (used for the view which a tutor can see open requests)
     only_self: When true, it only shows requests made by the user (used for the view for students to see their own requests)
     tutor: When true, it only shows requests accepted by the user (used only for viewers, to be used on the tutor's dashboard)
     """
@@ -84,17 +103,20 @@ def requests():
     self = request.args.get('self', 'true').lower() == "false"
     only_self = request.args.get('only_self', 'false').lower() == 'true'
     tutor = request.args.get('tutor', 'false').lower() == 'true'
+    include_archived = request.args.get('include_archived', 'false').lower() == 'true'
 
-    query = "SELECT * FROM requests WHERE 1=1" # query to be passed in and used to fetch requests from the database
+    query = "SELECT requests.*, users.user_email AS tutor_email FROM requests LEFT JOIN users ON requests.tutor_id = users.user_id WHERE 1=1"
     params = [] # all parameters to be passed into the query
 
+    if not include_archived:
+        query += " AND archived = 0"
+
     if hide_accepted:
-        query += " AND tutor_id IS NULL AND archived = 0" # adding to the query when the condition for a query parameter is met
+        query += " AND tutor_id IS NULL"
 
     if self:
-        query += " AND student_id != ? AND request_date NOT IN (SELECT request_date FROM requests WHERE tutor_id = ?)"
+        query += " AND student_id != ?"
         params.append(session["user_id"]) # adding in the information for placeholders in the query in the params list
-        params.append(session["user_id"])
 
     if only_self:
         query += " AND student_id = ?"
@@ -104,13 +126,149 @@ def requests():
         query += " AND tutor_id = ?"
         params.append(session["user_id"])
 
-    requests = q.get_requests(query, params) # fetching requests from the database based on the constructed query and parameters
-    return jsonify(requests)
+    requests_data = q.get_requests(query, params) # fetching requests from the database based on the constructed query and parameters
+    
+    # Filter requests by subject if the user is a tutor
+    user = q.get_user_by_id(session.get('user_id'))
+    if user and user.get('user_auth') == 'Tutor':
+        allowed_subjects = q.get_allowed_subjects(session.get('user_id'))
+        if allowed_subjects:  # Only filter if the tutor has some allowed subjects
+            requests_data = [r for r in requests_data if r.get('request_subject') in allowed_subjects]
+    
+    return jsonify(requests_data)
+
+@app.route('/api/archive_request/<int:request_id>', methods=['POST'])
+def archive_request(request_id):
+    user = q.get_user_by_id(session.get('user_id'))
+    if not user or user.get('user_auth') != 'Teacher':
+        return jsonify({"success": False, "message": "Unauthorized"}), 403
+    q.set_archive_status(request_id, 1)
+    return jsonify({"success": True, "message": "Request archived"})
+
+@app.route('/api/unarchive_request/<int:request_id>', methods=['POST'])
+def unarchive_request(request_id):
+    user = q.get_user_by_id(session.get('user_id'))
+    if not user or user.get('user_auth') != 'Teacher':
+        return jsonify({"success": False, "message": "Unauthorized"}), 403
+    q.set_archive_status(request_id, 0)
+    return jsonify({"success": True, "message": "Request unarchived"})
+
+@app.route('/api/remove_tutor/<int:request_id>', methods=['POST'])
+def remove_tutor(request_id):
+    user = q.get_user_by_id(session.get('user_id'))
+    if not user or user.get('user_auth') != 'Teacher':
+        return jsonify({"success": False, "message": "Unauthorized"}), 403
+    q.remove_tutor(request_id)
+    return jsonify({"success": True, "message": "Tutor removed"})
+
+@app.route('/api/delete_request/<int:request_id>', methods=['POST'])
+def delete_request(request_id):
+    if 'user_id' not in session:
+        return jsonify({"success": False, "message": "Unauthorized"}), 401
+    success = q.archive_request_by_user(request_id, session['user_id'])
+    if success:
+        return jsonify({"success": True, "message": "Request deleted"})
+    else:
+        return jsonify({"success": False, "message": "You can only delete your own requests"}), 403
+
+@app.route('/api/remove_self/<int:request_id>', methods=['POST'])
+def remove_self(request_id):
+    if 'user_id' not in session:
+        return jsonify({"success": False, "message": "Unauthorized"}), 401
+    success = q.remove_self_from_request(request_id, session['user_id'])
+    if success:
+        return jsonify({"success": True, "message": "Removed from request"})
+    else:
+        return jsonify({"success": False, "message": "You are not assigned to this request"}), 403
+
+@app.route('/api/current_user', methods=['GET'])
+def current_user():
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({"success": False}), 401
+
+    user = q.get_user_by_id(user_id)
+    if not user:
+        return jsonify({"success": False}), 401
+
+    return jsonify({
+        "success": True,
+        "user": {
+            "id": user['user_id'],
+            "email": user['user_email'],
+            "auth": user['user_auth']
+        }
+    })
 
 @app.route('/api/acceptrequest/<int:request_id>', methods=['POST'])
 def accept_request(request_id):
     q.accept_request(session["user_id"], request_id) # updating the request in the database to be accepted by the tutor
     return jsonify({"success": True, "message": "Request accepted successfully"})
+
+@app.route('/api/archive_past_requests', methods=['POST'])
+def archive_past_requests_route():
+    if not session.get('user_id'):
+        return jsonify({"success": False, "message": "Not logged in"}), 401
+    user = q.get_user_by_id(session['user_id'])
+    if user['user_auth'] != 'Teacher':
+        return jsonify({"success": False, "message": "Unauthorized"}), 403
+    q.archive_past_requests()
+    return jsonify({"success": True})
+
+@app.route('/api/tutors', methods=['GET'])
+def get_tutors():
+    if not session.get('user_id'):
+        return jsonify({"success": False, "message": "Not logged in"}), 401
+    user = q.get_user_by_id(session['user_id'])
+    if user['user_auth'] != 'Teacher':
+        return jsonify({"success": False, "message": "Unauthorized"}), 403
+    tutors = q.get_all_tutors()
+    return jsonify(tutors)
+
+@app.route('/api/clubs', methods=['GET'])
+def get_clubs():
+    if not session.get('user_id'):
+        return jsonify({"success": False, "message": "Not logged in"}), 401
+    user = q.get_user_by_id(session['user_id'])
+    if user['user_auth'] != 'Teacher':
+        return jsonify({"success": False, "message": "Unauthorized"}), 403
+    clubs = q.get_all_clubs()
+    return jsonify(clubs)
+
+@app.route('/api/join_club', methods=['POST'])
+def join_club():
+    if not session.get('user_id'):
+        return jsonify({"success": False, "message": "Not logged in"}), 401
+    
+    data = request.get_json()
+    code = data.get('code')
+    
+    if not code:
+        return jsonify({"success": False, "message": "Missing club code"}), 400
+    
+    user = q.get_user_by_id(session['user_id'])
+    if not user:
+        return jsonify({"success": False, "message": "User not found"}), 404
+    
+    club = q.get_club_by_code(code)
+    if not club:
+        return jsonify({"success": False, "message": "Invalid code"}), 400
+    
+    # If student, upgrade to tutor
+    is_new_tutor = False
+    if user['user_auth'] == 'Student':
+        q.upgrade_student_to_tutor(session['user_id'])
+        is_new_tutor = True
+    
+    # Add to club
+    is_new_member = q.add_tutor_to_club(session['user_id'], club['club_id'])
+    
+    return jsonify({
+        "success": True, 
+        "message": f"Successfully joined {club['club_name']}",
+        "club_name": club['club_name'],
+        "is_new_tutor": is_new_tutor
+    })
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)

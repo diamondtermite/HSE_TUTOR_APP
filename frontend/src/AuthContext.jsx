@@ -1,10 +1,40 @@
-import { createContext, useContext, useState } from 'react'; // importing the necessary functions to manage context and state from React
+import { createContext, useContext, useState, useEffect } from 'react'; // importing the necessary functions to manage context and state from React
 
 const AuthContext = createContext(null); // creating the authentication context that will allow for "global" access to the user and auth state
 
 function AuthProvider({ children }) { // the AuthProvider component that will wrap around the app and provide the AuthContext to its children
     const [user, setUser] = useState(null); // user state that will be accesible throught the AuthContext
-    const [auth, setAuth] = useState("Student"); // auth state that will be accesible throught the AuthContext
+    const [auth, setAuth] = useState(null); // auth state that will be accesible throught the AuthContext
+    const [loading, setLoading] = useState(true);
+    const [successMessage, setSuccessMessage] = useState(""); // success message state
+
+    useEffect(() => {
+        const fetchCurrentUser = async () => {
+            try {
+                const res = await fetch('/api/current_user', { credentials: 'include' });
+                if (!res.ok) {
+                    setUser(null);
+                    setAuth(null);
+                } else {
+                    const data = await res.json();
+                    if (data.success) {
+                        setUser(data.user);
+                        setAuth(data.user.auth);
+                    } else {
+                        setUser(null);
+                        setAuth(null);
+                    }
+                }
+            } catch (err) {
+                setUser(null);
+                setAuth(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCurrentUser();
+    }, []);
 
     const login = (userData) => { // function to log in a user and set the user and auth state
         setUser(userData);
@@ -18,11 +48,11 @@ function AuthProvider({ children }) { // the AuthProvider component that will wr
     }
 
     /*
-    The AuthContext.Provider component that will provide the user, auth, login, and logout values to its children
-    Allows for any component wrapped in AuthProvider to access the authentication state and functions, and is used in App.jsx for this
+    The AuthContext.Provider component that will provide the user, auth, login, logout, and loading values to its children
+    Allows for any component wrapped in AuthProvider to access authentication state and functions, and is used in App.jsx for this
     */
     return (
-        <AuthContext.Provider value={{ user, auth, login, logout }}>
+        <AuthContext.Provider value={{ user, auth, login, logout, loading, successMessage, setSuccessMessage }}>
             {children}
         </AuthContext.Provider>
     );

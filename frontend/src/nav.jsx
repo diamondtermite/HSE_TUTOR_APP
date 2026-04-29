@@ -26,24 +26,28 @@ export default function Nav() {
   */
   return (
     <nav className="nav-bar">
-      <Link to="/"><img src={hseImg} alt="home" className="hse-img"/></Link> {" | "}
+      <Link to="/"><img src={hseImg} alt="home" className="hse-img"/></Link>
       { user ?
         (
           <>
             {auth === "Teacher" && <>
-                <Link to="/search">search</Link>
-                <Link to="/requests">Requests</Link>
-                <Link to="/addrequest">Add Request</Link>
+                <Link to="/myrequests">My Requests</Link>
+                <Link to="/allrequests">All Requests</Link>                <Link to="/tutors">Tutors</Link>                <Link to="/addrequest">Add Request</Link>
             </>
             }
 
-            {auth === "Student" && 
-              <Link to="/requests?only_self=true">Requests</Link>
-            }
+            {auth === "Tutor" && <>
+                <Link to="/requests">Requests</Link>
+                <Link to="/myrequests">My Requests</Link>
+                <Link to="/addrequest">Add Request</Link>
+                <Link to="/joinclub">Add a Club</Link>
+            </>}
 
-            {auth === "Tutor" && 
-              <Link to="/requests?hide_accepted=true&self=false">Requests</Link>
-            }
+            {auth === "Student" && <>
+                <Link to="/requests">My Requests</Link>
+                <Link to="/addrequest">Add Request</Link>
+                <Link to="/joinclub">Add a Club</Link>
+            </>}
 
             <button className="sign-out-btn" onClick={handleLogout}>Sign out</button>
           </>

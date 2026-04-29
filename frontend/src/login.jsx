@@ -1,6 +1,6 @@
 // import necessary hooks and context
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 
 function LoginForm() {
@@ -11,7 +11,7 @@ function LoginForm() {
     If login fails, it displays an error message
     */
 
-    const {login} = useAuth(); // setup auth context to access the login function
+    const { login, user } = useAuth(); // setup auth context to access the login function
     const navigate = useNavigate(); // setup navigate function to redirect on successful login
 
     const [email, setEmail] = useState(''); // state for email input
@@ -30,9 +30,9 @@ function LoginForm() {
 
         const data = await res.json(); // parse response as JSON, await to ensure data is available
         
-        if(data.success) { // if login is successful, login user and navigate to home page
+        if(data.success) { // if login is successful, login user and navigate back to original route or home
             login(data.user);
-            navigate("/");
+            navigate("/", { replace: true });
         } else { // if login fails, set error message to display to user
             setError(data.message);
         }
@@ -49,16 +49,20 @@ function LoginForm() {
     
     Error Message - Displays error message in red if error state is set
     */
+    if (user) {
+        return <Navigate to="/" replace />;
+    }
+
     return(
         <div className="loginDiv">
             <div className="loginFormDiv">
                 <h2>Hse Tutor App</h2>
-                <form className="loginForm" onSubmit={handleSubmit}>
+                <form className="loginForm" onSubmit={handleSubmit} autoComplete="off">
                     <label htmlFor="Email">Email:</label>
-                    <input type="email" id="email" name="email" required onChange={e => setEmail(e.target.value)} />
+                    <input autoComplete="username" type="email" id="email" name="email" required onChange={e => setEmail(e.target.value)} />
 
                     <label htmlFor="password">Password:</label>
-                    <input type="password" id="password" name="password" required onChange={e => setPassword(e.target.value)} />
+                    <input autoComplete="current-password" type="password" id="password" name="password" required onChange={e => setPassword(e.target.value)} />
 
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     <button type="submit" className="loginBtn">Login</button>
